@@ -19,4 +19,8 @@ public class Carta {
     public boolean igual(Carta outra) {
         return this.par.equals(outra.getPar());
     }
+
+    public int calcularPontos() {
+        return 10;
+    }
 }

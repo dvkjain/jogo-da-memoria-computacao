@@ -13,21 +13,29 @@ public class Jogo extends JFrame implements ActionListener {
     private JButton jogarNovamenteButton;
     
     private JButton[] botoes;
-    private CartaDeComputacao[] cartas;
+
+    // O deck completo (todas as cartas possíveis)
+    private CartaDeComputacao[] cartasIniciais;
+    // As cartas selecionadas para a partida atual
+    private CartaDeComputacao[] cartasEmJogo;
     
     private JButton primeiroBotaoClicado;
     private JButton segundoBotaoClicado;
     private int primeiroIndice, segundoIndice;
+    
     private boolean bloqueado = false;
     private int paresEncontrados = 0;
     private int pontuacaoTotal = 0;
     
     private javax.swing.Timer timerErro; 
 
-    public Jogo(CartaDeComputacao[] cartasIniciais) throws IllegalArgumentException {
+    public Jogo(CartaDeComputacao[] cartasIniciais) {
         super("Jogo da Memória da Computação");
 
-        this.cartas = cartasIniciais;
+        this.cartasIniciais = cartasIniciais;
+        
+        this.cartasEmJogo = CartaDeComputacao.selecionarCartasParaJogo(cartasIniciais);
+
         embaralharCartas();
         
         configurarJanela();
@@ -38,9 +46,9 @@ public class Jogo extends JFrame implements ActionListener {
     }
 
     private void embaralharCartas() {
-        List<CartaDeComputacao> lista = Arrays.asList(cartas);
+        List<CartaDeComputacao> lista = Arrays.asList(cartasEmJogo);
         Collections.shuffle(lista);
-        cartas = lista.toArray(new CartaDeComputacao[0]);
+        cartasEmJogo = lista.toArray(new CartaDeComputacao[0]);
     }
 
     private void configurarJanela() {
@@ -58,7 +66,7 @@ public class Jogo extends JFrame implements ActionListener {
         labelPontuacao.setFont(new Font("SansSerif", Font.BOLD, 20));
         painelSuperior.add(labelPontuacao);
 
-        jogarNovamenteButton = new JButton("Reiniciar Jogo");
+        jogarNovamenteButton = new JButton("Resetar Jogo");
         jogarNovamenteButton.setFont(new Font("SansSerif", Font.BOLD, 14));
         jogarNovamenteButton.setBackground(new Color(220, 53, 69)); 
         jogarNovamenteButton.setForeground(Color.WHITE);
@@ -69,16 +77,21 @@ public class Jogo extends JFrame implements ActionListener {
         add(painelSuperior, BorderLayout.NORTH);
 
         painelCartas = new JPanel();
-        painelCartas.setLayout(new GridLayout(0, 4, 10, 10));
+        // O Layout será definido dinamicamente em criarBotoes()
         painelCartas.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         add(painelCartas, BorderLayout.CENTER);
     }
     
     private void criarBotoes() {
-        painelCartas.removeAll();
-        botoes = new JButton[cartas.length];
+        painelCartas.removeAll(); // Limpa botões antigos
+        
+        // Ajusta o Grid Layout baseado na quantidade de cartas
+        int linhas = (int) Math.ceil(cartasEmJogo.length / 4.0);
+        painelCartas.setLayout(new GridLayout(linhas, 4, 10, 10));
 
-        for (int i = 0; i < cartas.length; i++) {
+        botoes = new JButton[cartasEmJogo.length];
+
+        for (int i = 0; i < cartasEmJogo.length; i++) {
             JButton btn = new JButton("?");
             btn.setFont(new Font("SansSerif", Font.BOLD, 24));
             btn.setBackground(Color.LIGHT_GRAY);
@@ -87,6 +100,8 @@ public class Jogo extends JFrame implements ActionListener {
             botoes[i] = btn;
             painelCartas.add(btn);
         }
+        
+        // Força a atualização visual da tela
         painelCartas.revalidate();
         painelCartas.repaint();
     }
@@ -95,14 +110,12 @@ public class Jogo extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == jogarNovamenteButton) {
-            if (JOptionPane.showConfirmDialog(this, "Deseja reiniciar?", "Reiniciar", 
-                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-
-                reiniciarJogo();
-            }
+            // Pergunta a quantidade e reinicia
+            solicitarNumeroDePares(); 
             return;
         }
 
+        // Verifica cliques nas cartas
         for (int i = 0; i < botoes.length; i++) {
             if (e.getSource() == botoes[i]) {
                 clicarCarta(i);
@@ -111,19 +124,53 @@ public class Jogo extends JFrame implements ActionListener {
         }
     }
 
-    private void reiniciarJogo() {
-        try {
-            if (timerErro == null){
-            throw new NullPointerException();
-            }
-            timerErro.stop();
-            
-        } catch (NullPointerException e) {
-            timerErro = null; // redundante, pois se NullPointerException acontecer, timerErro tem que ser null
-        } finally {
-            timerErro = null;
-        }
+    private void solicitarNumeroDePares() {
+        int maxParesPossiveis = cartasIniciais.length / 2;
+        boolean entradaValida = false;
+        
+        while (!entradaValida) {
+            String input = JOptionPane.showInputDialog(this, 
+                    "Quantos pares você quer jogar?\n(Máximo disponível: " + maxParesPossiveis + ")", 
+                    "Configurar Novo Jogo", 
+                    JOptionPane.QUESTION_MESSAGE);
 
+            // Se o usuário clicar em "Cancelar" ou fechar a janela, cancela
+            if (input == null) {
+                return; 
+            }
+
+            try {
+                int qtde = Integer.parseInt(input);
+
+                if (qtde < 1 || qtde > maxParesPossiveis) {
+                    // Popup de Aviso (Valor Inválido)
+                    JOptionPane.showMessageDialog(this, 
+                            "Valor inválido! Por favor digite um número entre 1 e " + maxParesPossiveis + ".",
+                            "Atenção", 
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+                    entradaValida = true;
+                    reiniciarJogo(qtde);
+                }
+
+            } catch (NumberFormatException ex) {
+                // Popup de Aviso (Não é número)
+                JOptionPane.showMessageDialog(this, 
+                        "Isso não é um número válido.",
+                        "Erro", 
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    private void reiniciarJogo(int qtdePares) {
+        // Para o timer se estiver rodando para evitar erros visuais
+        if (timerErro != null && timerErro.isRunning()) {
+            timerErro.stop();
+        }
+        timerErro = null;
+
+        // Reseta variáveis de controle
         paresEncontrados = 0;
         pontuacaoTotal = 0;
         primeiroBotaoClicado = null;
@@ -132,13 +179,10 @@ public class Jogo extends JFrame implements ActionListener {
         
         labelPontuacao.setText("Pontos: 0");
 
+        // Seleciona novas cartas do deck principal e reconstrói a tela
+        this.cartasEmJogo = CartaDeComputacao.selecionarCartasParaJogo(cartasIniciais, qtdePares);
         embaralharCartas();
-
-        for (JButton btn : botoes) {
-            btn.setText("?");
-            btn.setBackground(Color.LIGHT_GRAY);
-            btn.setEnabled(true);
-        }
+        criarBotoes(); // Recria os botões no painel
     }
 
     private void clicarCarta(int indice) {
@@ -147,8 +191,8 @@ public class Jogo extends JFrame implements ActionListener {
         }
 
         JButton btnClicado = botoes[indice];
-        btnClicado.setText(cartas[indice].getNome());
-        btnClicado.setBackground(cartas[indice].getCorDoTema());
+        btnClicado.setText(cartasEmJogo[indice].getNome());
+        btnClicado.setBackground(cartasEmJogo[indice].getCorDoTema());
 
         if (primeiroBotaoClicado == null) {
             primeiroBotaoClicado = btnClicado;
@@ -162,7 +206,7 @@ public class Jogo extends JFrame implements ActionListener {
     }
 
     private void verificarPar() {
-        if (cartas[primeiroIndice].igual(cartas[segundoIndice])) {
+        if (cartasEmJogo[primeiroIndice].igual(cartasEmJogo[segundoIndice])) {
             acertouPar();
         } else {
             errouPar();
@@ -179,34 +223,38 @@ public class Jogo extends JFrame implements ActionListener {
         
         paresEncontrados++;
         
-        int pontosGanhos = cartas[primeiroIndice].calcularPontos();
+        int pontosGanhos = cartasEmJogo[primeiroIndice].calcularPontos();
         pontuacaoTotal += pontosGanhos;
         
         labelPontuacao.setText("Pontos: " + pontuacaoTotal);
         
         resetarJogada();
         
-        if (paresEncontrados == cartas.length / 2) {
+        // Verifica Vitória
+        if (paresEncontrados == cartasEmJogo.length / 2) {
              int escolha = JOptionPane.showConfirmDialog(this, 
                 "Parabéns! Você venceu!\nPontuação Final: " + pontuacaoTotal + "\nJogar de novo?", 
                 "Vitória!", 
                 JOptionPane.YES_NO_OPTION);
                 
             if (escolha == JOptionPane.YES_OPTION) {
-                reiniciarJogo();
+                solicitarNumeroDePares(); // Chama a telinha de configuração
             }
         }
     }
 
     private void errouPar() {
         timerErro = new javax.swing.Timer(1500, evt -> {
-            primeiroBotaoClicado.setText("?");
-            primeiroBotaoClicado.setBackground(Color.LIGHT_GRAY);
-            segundoBotaoClicado.setText("?");
-            segundoBotaoClicado.setBackground(Color.LIGHT_GRAY);
+            // Verifica se os botões ainda existem (caso o jogo tenha sido resetado no meio do timer)
+            if (primeiroBotaoClicado != null && segundoBotaoClicado != null) {
+                primeiroBotaoClicado.setText("?");
+                primeiroBotaoClicado.setBackground(Color.LIGHT_GRAY);
+                segundoBotaoClicado.setText("?");
+                segundoBotaoClicado.setBackground(Color.LIGHT_GRAY);
+            }
             resetarJogada();
         });
-        timerErro.setRepeats(false); // timer deve ser executado apenas uma vez, e depois parar
+        timerErro.setRepeats(false);
         timerErro.start();
     }
 
@@ -262,10 +310,7 @@ public class Jogo extends JFrame implements ActionListener {
 
             new CartaDeComputacao("Eliza", "Chatbot", 2, "NLP"),
             new CartaDeComputacao("ChatGPT", "Chatbot", 2, "NLP"),
-
-
         };
-            CartaDeComputacao[] deckJogo = CartaDeComputacao.selecionarCartasParaJogo(deck);
-            Jogo jogo = new Jogo(deckJogo);
+            Jogo jogo = new Jogo(deck);
     }
 }
