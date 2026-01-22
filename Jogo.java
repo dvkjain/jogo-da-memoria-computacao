@@ -124,7 +124,6 @@ public class Jogo extends JFrame implements ActionListener {
             timerErro = null;
         }
 
-
         paresEncontrados = 0;
         pontuacaoTotal = 0;
         primeiroBotaoClicado = null;
@@ -228,27 +227,45 @@ public class Jogo extends JFrame implements ActionListener {
             new CartaDeComputacao("C++", "C++", 1, "Linguagem"),
             new CartaDeComputacao("C++", "C++", 1, "Linguagem"),
 
-            new CartaDeComputacao("JS", "JS", 1, "Web"),
-            new CartaDeComputacao("JS", "JS", 1, "Web"),
-
-            new CartaDeComputacao("HTML", "HTML", 1, "Web"),
-            new CartaDeComputacao("HTML", "HTML", 1, "Web"),
-
-            new CartaDeComputacao("CSS", "CSS", 1, "Web"),
-            new CartaDeComputacao("CSS", "CSS", 1, "Web"),
-
-            new CartaDeComputacao("SQL", "SQL", 1, "Dados"),
-            new CartaDeComputacao("SQL", "SQL", 2, "Dados"),
-
-            new CartaDeComputacao("Git", "Git", 2, "DevOps"),
-            new CartaDeComputacao("Git", "Git", 2, "DevOps"),
+            new CartaDeComputacao("JS", "JS", 1, "Linguagem"),
+            new CartaDeComputacao("JS", "JS", 1, "Linguagem"),
 
             new CartaDeComputacao("Mimi", "MimiGato", 1, "Outros"),
             new CartaDeComputacao("Gato", "MimiGato", 1, "Outros"),
 
+            new CartaDeComputacao("Hello", "HelloWorld", 1, "Outros"),
+            new CartaDeComputacao("World", "HelloWorld", 1, "Outros"),
+
             new CartaDeComputacao("Totó", "TotóCachorro", 1, "Outros"),
             new CartaDeComputacao("Cachorro", "TotóCachorro", 1, "Outros"),
+
+            new CartaDeComputacao("Turing", "TuringEnigma", 2, "História"),
+            new CartaDeComputacao("Enigma", "TuringEnigma", 2, "História"),
+
+            new CartaDeComputacao("Ada", "AdaLovelace", 2, "História"),
+            new CartaDeComputacao("Lovelace", "AdaLovelace", 2, "História"),
+
+            new CartaDeComputacao("Binário", "Binário01", 2, "Fundamentos"),
+            new CartaDeComputacao("0101", "Binário01", 2, "Fundamentos"),
+
+            new CartaDeComputacao("while(true)", "whileEterno", 2, "Fundamentos"),
+            new CartaDeComputacao("Eternidade", "whileEterno", 2, "Fundamentos"),
+
+            new CartaDeComputacao("Linux", "LinuxPinguim", 1, "SO"),
+            new CartaDeComputacao("Pinguim", "LinuxPinguim", 1, "SO"),
+
+            new CartaDeComputacao("Windows", "WindowsJanelas", 1, "SO"),
+            new CartaDeComputacao("Janelas", "WindowsJanelas", 1, "SO"),
+
+            new CartaDeComputacao("Word2Vec", "Vetorização", 2, "NLP"),
+            new CartaDeComputacao("GloVe", "Vetorização", 2, "NLP"),
+
+            new CartaDeComputacao("Eliza", "Chatbot", 2, "NLP"),
+            new CartaDeComputacao("ChatGPT", "Chatbot", 2, "NLP"),
+
+
         };
-            Jogo jogo = new Jogo(deck);
+            CartaDeComputacao[] deckJogo = CartaDeComputacao.selecionarCartasParaJogo(deck);
+            Jogo jogo = new Jogo(deckJogo);
     }
 }

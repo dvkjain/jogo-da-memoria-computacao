@@ -15,9 +15,4 @@ public class CartaNivelada extends Carta {
     public int calcularPontos() {
         return this.nivel * 10;
     }
-    
-    @Override
-    public String toString() {
-        return super.toString() + " [Nível " + nivel + "]";
-    }
 }
