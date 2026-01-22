@@ -12,6 +12,7 @@ public class CartaNivelada extends Carta {
     }
     
     // Nível 1 = 10pts, Nível 2 = 20pts
+    @Override
     public int calcularPontos() {
         return this.nivel * 10;
     }
