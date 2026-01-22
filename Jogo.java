@@ -25,15 +25,7 @@ public class Jogo extends JFrame implements ActionListener {
     private javax.swing.Timer timerErro; 
 
     public Jogo(CartaDeComputacao[] cartasIniciais) throws IllegalArgumentException {
-        super("Jogo da Memória - POO");
-        
-        // Validações com throw (já existiam, cumprem o requisito também)
-        if (cartasIniciais == null || cartasIniciais.length == 0) {
-            throw new IllegalArgumentException("O baralho está vazio!");
-        }
-        if (cartasIniciais.length % 2 != 0) {
-            throw new IllegalArgumentException("O número de cartas é ímpar (" + cartasIniciais.length + ").");
-        }
+        super("Jogo da Memória da Computação");
 
         this.cartas = cartasIniciais;
         embaralharCartas();
@@ -46,16 +38,15 @@ public class Jogo extends JFrame implements ActionListener {
     }
 
     private void embaralharCartas() {
-        List<CartaDeComputacao> lista = Arrays.asList(this.cartas);
+        List<CartaDeComputacao> lista = Arrays.asList(cartas);
         Collections.shuffle(lista);
-        this.cartas = lista.toArray(new CartaDeComputacao[0]);
+        cartas = lista.toArray(new CartaDeComputacao[0]);
     }
 
     private void configurarJanela() {
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        setLocationRelativeTo(null);
     }
 
     private void inicializarComponentes() {
@@ -129,10 +120,10 @@ public class Jogo extends JFrame implements ActionListener {
             
         } catch (NullPointerException e) {
             timerErro = null; // redundante, pois se NullPointerException acontecer, timerErro tem que ser null
-        }
-        finally {
+        } finally {
             timerErro = null;
         }
+
 
         paresEncontrados = 0;
         pontuacaoTotal = 0;
@@ -216,7 +207,7 @@ public class Jogo extends JFrame implements ActionListener {
             segundoBotaoClicado.setBackground(Color.LIGHT_GRAY);
             resetarJogada();
         });
-        timerErro.setRepeats(false);
+        timerErro.setRepeats(false); // timer deve ser executado apenas uma vez, e depois parar
         timerErro.start();
     }
 
@@ -230,25 +221,34 @@ public class Jogo extends JFrame implements ActionListener {
         CartaDeComputacao[] deck = {
             new CartaDeComputacao("Java", "Java", 1, "Linguagem"),
             new CartaDeComputacao("Java", "Java", 1, "Linguagem"),
+
             new CartaDeComputacao("Python", "Python", 1, "Linguagem"),
             new CartaDeComputacao("Python", "Python", 1, "Linguagem"),
+
             new CartaDeComputacao("C++", "C++", 1, "Linguagem"),
             new CartaDeComputacao("C++", "C++", 1, "Linguagem"),
+
             new CartaDeComputacao("JS", "JS", 1, "Web"),
             new CartaDeComputacao("JS", "JS", 1, "Web"),
+
             new CartaDeComputacao("HTML", "HTML", 1, "Web"),
             new CartaDeComputacao("HTML", "HTML", 1, "Web"),
+
             new CartaDeComputacao("CSS", "CSS", 1, "Web"),
             new CartaDeComputacao("CSS", "CSS", 1, "Web"),
+
             new CartaDeComputacao("SQL", "SQL", 1, "Dados"),
             new CartaDeComputacao("SQL", "SQL", 2, "Dados"),
+
             new CartaDeComputacao("Git", "Git", 2, "DevOps"),
             new CartaDeComputacao("Git", "Git", 2, "DevOps"),
+
             new CartaDeComputacao("Mimi", "MimiGato", 1, "Outros"),
-            new CartaDeComputacao("Gato", "MimiGato", 1, "Outros")
+            new CartaDeComputacao("Gato", "MimiGato", 1, "Outros"),
+
+            new CartaDeComputacao("Totó", "TotóCachorro", 1, "Outros"),
+            new CartaDeComputacao("Cachorro", "TotóCachorro", 1, "Outros"),
         };
-
             Jogo jogo = new Jogo(deck);
-
     }
 }
