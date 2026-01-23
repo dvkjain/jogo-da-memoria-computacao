@@ -2,9 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class Jogo extends JFrame implements ActionListener {
 
@@ -33,22 +30,15 @@ public class Jogo extends JFrame implements ActionListener {
         super("Jogo da Memória da Computação");
 
         this.cartasIniciais = cartasIniciais;
-        
-        this.cartasEmJogo = CartaDeComputacao.selecionarCartasParaJogo(cartasIniciais);
 
-        embaralharCartas();
+        // Embaralhar as cartas que forem selecionadas
+        this.cartasEmJogo = CartaDeComputacao.embaralharCartas(CartaDeComputacao.selecionarCartasParaJogo(cartasIniciais));
         
         configurarJanela();
         inicializarComponentes();
         criarBotoes();
         
         setVisible(true);
-    }
-
-    private void embaralharCartas() {
-        List<CartaDeComputacao> lista = Arrays.asList(cartasEmJogo);
-        Collections.shuffle(lista);
-        cartasEmJogo = lista.toArray(new CartaDeComputacao[0]);
     }
 
     private void configurarJanela() {
@@ -180,8 +170,8 @@ public class Jogo extends JFrame implements ActionListener {
         labelPontuacao.setText("Pontos: 0");
 
         // Seleciona novas cartas do deck principal e reconstrói a tela
-        this.cartasEmJogo = CartaDeComputacao.selecionarCartasParaJogo(cartasIniciais, qtdePares);
-        embaralharCartas();
+        
+        this.cartasEmJogo = CartaDeComputacao.embaralharCartas(CartaDeComputacao.selecionarCartasParaJogo(cartasIniciais, qtdePares));
         criarBotoes(); // Recria os botões no painel
     }
 
@@ -218,6 +208,7 @@ public class Jogo extends JFrame implements ActionListener {
         primeiroBotaoClicado.setBackground(corSucesso);
         segundoBotaoClicado.setBackground(corSucesso);
         
+        // Desabilitar botões de pares já encontrados
         primeiroBotaoClicado.setEnabled(false);
         segundoBotaoClicado.setEnabled(false);
         
@@ -275,8 +266,8 @@ public class Jogo extends JFrame implements ActionListener {
             new CartaDeComputacao("C++", "C++", 1, "Linguagem"),
             new CartaDeComputacao("C++", "C++", 1, "Linguagem"),
 
-            new CartaDeComputacao("JS", "JS", 1, "Linguagem"),
-            new CartaDeComputacao("JS", "JS", 1, "Linguagem"),
+            new CartaDeComputacao("Ruby", "Ruby", 1, "Linguagem"),
+            new CartaDeComputacao("Ruby", "Ruby", 1, "Linguagem"),
 
             new CartaDeComputacao("Mimi", "MimiGato", 1, "Outros"),
             new CartaDeComputacao("Gato", "MimiGato", 1, "Outros"),

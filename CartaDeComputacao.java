@@ -1,4 +1,7 @@
 import java.awt.Color;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class CartaDeComputacao extends CartaNivelada {
@@ -32,6 +35,13 @@ public class CartaDeComputacao extends CartaNivelada {
         }
     }
 
+    public static CartaDeComputacao[] embaralharCartas(CartaDeComputacao[] cartas) {
+        // Transforma em lista, para fazer .shuffle, e depois transforma de volta em array
+        List<CartaDeComputacao> lista = Arrays.asList(cartas);
+        Collections.shuffle(lista);
+        return lista.toArray(new CartaDeComputacao[0]);
+    }
+
     public static CartaDeComputacao[] selecionarCartasParaJogo(CartaDeComputacao[] todas) {
         return selecionar(todas, 8);
     }
@@ -42,7 +52,7 @@ public class CartaDeComputacao extends CartaNivelada {
         return selecionar(todas, pares);
     }
 
-    public static CartaDeComputacao[] selecionar(CartaDeComputacao[] todas, int pares) {
+    private static CartaDeComputacao[] selecionar(CartaDeComputacao[] todas, int pares) {
         CartaDeComputacao[] listaDePares = new CartaDeComputacao[pares*2];
         int[] indicesEscolhidos = new int[pares*2];
 
