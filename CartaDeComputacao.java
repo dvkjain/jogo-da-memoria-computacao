@@ -1,11 +1,11 @@
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
+// import java.util.Random;
 
 public class CartaDeComputacao extends CartaNivelada {
-    
     private String tema;
 
     public CartaDeComputacao(String nome, String par, int nivel, String tema) {
@@ -42,62 +42,41 @@ public class CartaDeComputacao extends CartaNivelada {
         return lista.toArray(new CartaDeComputacao[0]);
     }
 
-    public static CartaDeComputacao[] selecionarCartasParaJogo(CartaDeComputacao[] todas) {
-        return selecionar(todas, 8);
-    }
-
     // Overload do método selecionarCartasParaJogo
-    public static CartaDeComputacao[] selecionarCartasParaJogo(CartaDeComputacao[] todas, int qtdePares) {
-        int pares = qtdePares;
-        return selecionar(todas, pares);
+    public static CartaDeComputacao[] selecionarCartasParaJogo(CartaDeComputacao[] todas) {
+        return selecionarCartasParaJogo(todas, 8);
     }
 
-    private static CartaDeComputacao[] selecionar(CartaDeComputacao[] todas, int pares) {
-        CartaDeComputacao[] listaDePares = new CartaDeComputacao[pares*2];
-        int[] indicesEscolhidos = new int[pares*2];
+    public static CartaDeComputacao[] selecionarCartasParaJogo(CartaDeComputacao[] todas, int pares) {
+        List<CartaDeComputacao> cartasEmbaralhadas = Arrays.asList(todas);
+        Collections.shuffle(cartasEmbaralhadas); // Embaralha as cartas
 
-        // Preencher com -1
-        for(int k=0; k < indicesEscolhidos.length; k++) {
-                    indicesEscolhidos[k] = -1;
+        List<CartaDeComputacao> cartasSelecionadas = new ArrayList<>();
+        List<String> paresUsados = new ArrayList<>();
+
+        for (CartaDeComputacao carta : cartasEmbaralhadas) {
+            if (paresUsados.contains(carta.getPar())) continue; // Se a carta ja foi utilizada, continua o loop
+
+            CartaDeComputacao par = acharPar(cartasEmbaralhadas, carta);
+            
+            cartasSelecionadas.add(carta);
+            cartasSelecionadas.add(par);
+            paresUsados.add(carta.getPar());
+
+            if (paresUsados.size() == pares) break; // Se já chegou na quantidade de pares, encerra o loop
         }
-        
-        Random gerador = new Random();
-        int idx;
 
-        for (int i = 0; i<pares*2; i+=2) {
-
-            do {
-            idx = gerador.nextInt(todas.length);
-            } while (jaEscolhido(indicesEscolhidos, idx));
-
-            CartaDeComputacao parAtual = acharPar(todas, todas[idx]);
-
-            listaDePares[i] = todas[idx];
-            listaDePares[i+1] = parAtual;
-            indicesEscolhidos[i] = idx;
-            indicesEscolhidos[i+1] = acharIdxPar(todas, parAtual);
-        }
-        return listaDePares;
+        Collections.shuffle(cartasSelecionadas); // Embaralha as cartas selecionadas
+        return cartasSelecionadas.toArray(new CartaDeComputacao[0]);
     }
 
-    private static CartaDeComputacao acharPar(CartaDeComputacao[] cartas, CartaDeComputacao carta) {
-        for (int i =0; i<cartas.length; i++) {
-            if (cartas[i].getPar().equals(carta.getPar()) && cartas[i]!=carta) return cartas[i];
+    // Função auxiliar para achar o par da carta
+    private static CartaDeComputacao acharPar(List<CartaDeComputacao> cartasEmbaralhadas, CartaDeComputacao carta) {
+        for (CartaDeComputacao c : cartasEmbaralhadas) {
+            if (c != carta && c.getPar() == carta.getPar()) {
+                return c;
+            }
         }
         return null;
-    }
-
-    private static int acharIdxPar(CartaDeComputacao[] cartas, CartaDeComputacao cartaPar) {
-        for (int i = 0; i<cartas.length; i++) {
-            if (cartas[i] == cartaPar) return i;
-        }
-        return -1;
-    }
-
-    private static boolean jaEscolhido(int[] lista, int valor) {
-        for (int i = 0; i<lista.length; i++) {
-            if (valor==lista[i]) return true;
-        }
-        return false;
     }
 }
