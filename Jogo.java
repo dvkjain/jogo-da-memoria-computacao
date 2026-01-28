@@ -67,7 +67,7 @@ public class Jogo extends JFrame implements ActionListener {
         add(painelSuperior, BorderLayout.NORTH);
 
         painelCartas = new JPanel();
-        // O Layout será definido dinamicamente em criarBotoes()
+
         painelCartas.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         add(painelCartas, BorderLayout.CENTER);
     }
@@ -235,7 +235,7 @@ public class Jogo extends JFrame implements ActionListener {
     }
 
     private void errouPar() {
-        timerErro = new javax.swing.Timer(1500, evt -> {
+        timerErro = new javax.swing.Timer(1000, evt -> {
             // Verifica se os botões ainda existem (caso o jogo tenha sido resetado no meio do timer)
             if (primeiroBotaoClicado != null && segundoBotaoClicado != null) {
                 primeiroBotaoClicado.setText("?");
@@ -278,14 +278,14 @@ public class Jogo extends JFrame implements ActionListener {
             new CartaDeComputacao("Totó", "TotóCachorro", 1, "Outros"),
             new CartaDeComputacao("Cachorro", "TotóCachorro", 1, "Outros"),
 
-            new CartaDeComputacao("Turing", "TuringEnigma", 2, "História"),
-            new CartaDeComputacao("Enigma", "TuringEnigma", 2, "História"),
+            new CartaDeComputacao("Turing", "TuringEnigma", 3, "História"),
+            new CartaDeComputacao("Enigma", "TuringEnigma", 3, "História"),
 
             new CartaDeComputacao("Ada", "AdaLovelace", 2, "História"),
             new CartaDeComputacao("Lovelace", "AdaLovelace", 2, "História"),
 
-            new CartaDeComputacao("Binário", "Binário01", 2, "Fundamentos"),
-            new CartaDeComputacao("0101", "Binário01", 2, "Fundamentos"),
+            new CartaDeComputacao("Binário", "Binário01", 1, "Fundamentos"),
+            new CartaDeComputacao("0101", "Binário01", 1, "Fundamentos"),
 
             new CartaDeComputacao("while(true)", "whileEterno", 2, "Fundamentos"),
             new CartaDeComputacao("Eternidade", "whileEterno", 2, "Fundamentos"),
@@ -296,11 +296,11 @@ public class Jogo extends JFrame implements ActionListener {
             new CartaDeComputacao("Windows", "WindowsJanelas", 1, "SO"),
             new CartaDeComputacao("Janelas", "WindowsJanelas", 1, "SO"),
 
-            new CartaDeComputacao("Word2Vec", "Vetorização", 2, "NLP"),
-            new CartaDeComputacao("GloVe", "Vetorização", 2, "NLP"),
+            new CartaDeComputacao("Word2Vec", "Vetorização", 3, "NLP"),
+            new CartaDeComputacao("GloVe", "Vetorização", 3, "NLP"),
 
-            new CartaDeComputacao("Eliza", "Chatbot", 2, "NLP"),
-            new CartaDeComputacao("ChatGPT", "Chatbot", 2, "NLP"),
+            new CartaDeComputacao("Eliza", "Chatbot", 2, "PLN"),
+            new CartaDeComputacao("ChatGPT", "Chatbot", 2, "PLN"),
         };
             Jogo jogo = new Jogo(deck);
     }

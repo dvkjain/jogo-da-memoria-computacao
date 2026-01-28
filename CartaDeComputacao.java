@@ -28,7 +28,7 @@ public class CartaDeComputacao extends CartaNivelada {
                 return new Color(144, 238, 144); // Verde Claro
             case "so":
                 return new Color(255, 255, 224); // Amarelo Claro
-            case "nlp":
+            case "pln":
                 return new Color(221, 160, 221); // Roxo Claro
             default:
                 return Color.WHITE;
