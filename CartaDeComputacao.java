@@ -35,13 +35,6 @@ public class CartaDeComputacao extends CartaNivelada {
         }
     }
 
-    public static CartaDeComputacao[] embaralharCartas(CartaDeComputacao[] cartas) {
-        // Transforma em lista, para fazer .shuffle, e depois transforma de volta em array
-        List<CartaDeComputacao> lista = Arrays.asList(cartas);
-        Collections.shuffle(lista);
-        return lista.toArray(new CartaDeComputacao[0]);
-    }
-
     // Overload do método selecionarCartasParaJogo
     public static CartaDeComputacao[] selecionarCartasParaJogo(CartaDeComputacao[] todas) {
         return selecionarCartasParaJogo(todas, 8);

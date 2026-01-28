@@ -32,7 +32,7 @@ public class Jogo extends JFrame implements ActionListener {
         this.cartasIniciais = cartasIniciais;
 
         // Embaralhar as cartas que forem selecionadas
-        this.cartasEmJogo = CartaDeComputacao.embaralharCartas(CartaDeComputacao.selecionarCartasParaJogo(cartasIniciais));
+        this.cartasEmJogo = CartaDeComputacao.selecionarCartasParaJogo(cartasIniciais);
         
         configurarJanela();
         inicializarComponentes();
@@ -170,8 +170,7 @@ public class Jogo extends JFrame implements ActionListener {
         labelPontuacao.setText("Pontos: 0");
 
         // Seleciona novas cartas do deck principal e reconstrói a tela
-        
-        this.cartasEmJogo = CartaDeComputacao.embaralharCartas(CartaDeComputacao.selecionarCartasParaJogo(cartasIniciais, qtdePares));
+        this.cartasEmJogo = CartaDeComputacao.selecionarCartasParaJogo(cartasIniciais, qtdePares);
         criarBotoes(); // Recria os botões no painel
     }
 
@@ -269,14 +268,17 @@ public class Jogo extends JFrame implements ActionListener {
             new CartaDeComputacao("Ruby", "Ruby", 1, "Linguagem"),
             new CartaDeComputacao("Ruby", "Ruby", 1, "Linguagem"),
 
-            new CartaDeComputacao("Mimi", "MimiGato", 1, "Outros"),
-            new CartaDeComputacao("Gato", "MimiGato", 1, "Outros"),
+            new CartaDeComputacao("R", "R", 1, "Linguagem"),
+            new CartaDeComputacao("R", "R", 1, "Linguagem"),
 
-            new CartaDeComputacao("Hello", "HelloWorld", 1, "Outros"),
-            new CartaDeComputacao("World", "HelloWorld", 1, "Outros"),
+            new CartaDeComputacao("Mimi", "MimiGato", 2, "Outros"),
+            new CartaDeComputacao("Gato", "MimiGato", 2, "Outros"),
 
-            new CartaDeComputacao("Totó", "TotóCachorro", 1, "Outros"),
-            new CartaDeComputacao("Cachorro", "TotóCachorro", 1, "Outros"),
+            new CartaDeComputacao("Hello", "HelloWorld", 2, "Outros"),
+            new CartaDeComputacao("World", "HelloWorld", 2, "Outros"),
+
+            new CartaDeComputacao("Totó", "TotóCachorro", 2, "Outros"),
+            new CartaDeComputacao("Cachorro", "TotóCachorro", 2, "Outros"),
 
             new CartaDeComputacao("Turing", "TuringEnigma", 3, "História"),
             new CartaDeComputacao("Enigma", "TuringEnigma", 3, "História"),
@@ -284,23 +286,29 @@ public class Jogo extends JFrame implements ActionListener {
             new CartaDeComputacao("Ada", "AdaLovelace", 2, "História"),
             new CartaDeComputacao("Lovelace", "AdaLovelace", 2, "História"),
 
-            new CartaDeComputacao("Binário", "Binário01", 1, "Fundamentos"),
-            new CartaDeComputacao("0101", "Binário01", 1, "Fundamentos"),
+            new CartaDeComputacao("Binário", "Binário01", 2, "Fundamentos"),
+            new CartaDeComputacao("0101", "Binário01", 2, "Fundamentos"),
+
+            new CartaDeComputacao("Hexadecimal", "Hexa", 2, "Fundamentos"),
+            new CartaDeComputacao("0x1A3F", "Hexa", 2, "Fundamentos"),
 
             new CartaDeComputacao("while(true)", "whileEterno", 2, "Fundamentos"),
             new CartaDeComputacao("Eternidade", "whileEterno", 2, "Fundamentos"),
 
-            new CartaDeComputacao("Linux", "LinuxPinguim", 1, "SO"),
-            new CartaDeComputacao("Pinguim", "LinuxPinguim", 1, "SO"),
+            new CartaDeComputacao("Linux", "LinuxPinguim", 2, "SO"),
+            new CartaDeComputacao("Pinguim", "LinuxPinguim", 2, "SO"),
 
-            new CartaDeComputacao("Windows", "WindowsJanelas", 1, "SO"),
-            new CartaDeComputacao("Janelas", "WindowsJanelas", 1, "SO"),
+            new CartaDeComputacao("Windows", "WindowsJanelas", 2, "SO"),
+            new CartaDeComputacao("Janelas", "WindowsJanelas", 2, "SO"),
 
             new CartaDeComputacao("Word2Vec", "Vetorização", 3, "PLN"),
             new CartaDeComputacao("GloVe", "Vetorização", 3, "PLN"),
 
             new CartaDeComputacao("Eliza", "Chatbot", 2, "PLN"),
             new CartaDeComputacao("ChatGPT", "Chatbot", 2, "PLN"),
+
+            new CartaDeComputacao("Von", "VonNeumann", 3, "História"),
+            new CartaDeComputacao("Neumann", "VonNeumann", 3, "História"),
         };
             Jogo jogo = new Jogo(deck);
     }
