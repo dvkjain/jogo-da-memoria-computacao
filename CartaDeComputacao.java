@@ -73,7 +73,7 @@ public class CartaDeComputacao extends CartaNivelada {
     // Função auxiliar para achar o par da carta
     private static CartaDeComputacao acharPar(List<CartaDeComputacao> cartasEmbaralhadas, CartaDeComputacao carta) {
         for (CartaDeComputacao c : cartasEmbaralhadas) {
-            if (c != carta && c.getPar() == carta.getPar()) {
+            if (c != carta && (c.getPar().equals(carta.getPar()))) {
                 return c;
             }
         }
