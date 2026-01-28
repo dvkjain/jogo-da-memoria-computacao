@@ -296,8 +296,8 @@ public class Jogo extends JFrame implements ActionListener {
             new CartaDeComputacao("Windows", "WindowsJanelas", 1, "SO"),
             new CartaDeComputacao("Janelas", "WindowsJanelas", 1, "SO"),
 
-            new CartaDeComputacao("Word2Vec", "Vetorização", 3, "NLP"),
-            new CartaDeComputacao("GloVe", "Vetorização", 3, "NLP"),
+            new CartaDeComputacao("Word2Vec", "Vetorização", 3, "PLN"),
+            new CartaDeComputacao("GloVe", "Vetorização", 3, "PLN"),
 
             new CartaDeComputacao("Eliza", "Chatbot", 2, "PLN"),
             new CartaDeComputacao("ChatGPT", "Chatbot", 2, "PLN"),
